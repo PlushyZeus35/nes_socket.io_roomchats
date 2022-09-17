@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room <%= roomId %> </title>
+    <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./static/css/room.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="chat-container">
+
+        <div id="chat-window" class="nes-container is-dark with-title">
+            <p class="title">Sala <span id="roomId"><%= roomId%></span> </p>
+            <div class="nes-badge">
+              <span class="is-primary"><span id="userCounter"></span> personas</span>
+            </div>
+            <div id="output">
+                <section id="messages-section" class="nes-container is-dark is-centered">
+                    <section id="messages" class="message-list">
+                      </section> 
+                    </section>
+                  </section>
+                
+            </div>
+            <div style="background-color:#212529; padding: 1rem;" class="nes-field">
+                <label for="dark_field" style="color:#fff;">Your name</label>
+                <input type="text" id="username" class="nes-input is-dark nes-pointer" placeholder="Super Mario">
+            </div>
+            <div style="background-color:#212529; padding: 1rem;" class="nes-field">
+                <label for="dark_field" style="color:#fff;">Your message</label>
+                <input type="text" id="message" class="nes-input is-dark nes-pointer" placeholder="It's-a-me Mario!">
+            </div>
+            <button id="send" type="button" class="nes-btn is-primary">Enviar</button>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+    <!-- LOCAL JAVASCRIPT -->
+    <script src="./static/js/room.js"></script>
+</body>
+</html>

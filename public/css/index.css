@@ -1,0 +1,7 @@
+body{
+    min-width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: rgb(245,56,68);
+    background: linear-gradient(112deg, rgba(245,56,68,1) 0%, rgba(66,55,143,1) 100%);
+}

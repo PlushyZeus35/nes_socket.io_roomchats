@@ -1,0 +1,162 @@
+#!/usr/bin/env node
+const SocketIO = require('socket.io');
+const colors = require('colors');
+// Dummy database
+let rooms = [0,0,0];
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('demo:server');
+var http = require('http'); 
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
+
+function getNumClientsOnRoom(io, roomId) {
+
+  //this is an ES6 Set of all client ids in the room
+  const clients = io.sockets.adapter.rooms.get(roomId);
+
+  //to get the number of clients in this room
+  const numClients = clients ? clients.size : 0;
+
+  console.log("El numero de clientes de " + roomId + " es de " + numClients);
+
+  return numClients;
+}
+
+const io = SocketIO(server);
+
+// WEBSOCKETS
+io.on('connection', (socket) => {
+    // Añadir socket a un grupo
+    socket.on('chat:roomId', (roomId) => {
+      console.log(roomId)
+      socket.join(roomId);
+      console.log("Conectando ".green + socket.id.brightBlue + " a la sala ".green + roomId.brightBlue);
+      const userCount = getNumClientsOnRoom(io, roomId);
+      console.log(userCount);
+      io.to(roomId).emit('chat:usercount', userCount);
+    })
+
+    // Enviar mensaje a grupo o persona
+    socket.on('chat:message', (data) => {
+      console.log('Mensaje de '.magenta + data.username.brightBlue + ' enviado por sala '.magenta + data.roomId.brightBlue);
+      socket.to(data.roomId).emit('chat:message', data);
+    })
+
+    // Desconexión de socket
+    socket.on('disconnecting', function(){
+      let roomId = '';
+
+      if(socket.rooms.size>1){
+        for (const item of socket.rooms) {
+          roomId = item;
+        }
+        console.log('Desconectando '.red + socket.id.brightBlue + ' de la sala '.red + roomId.brightBlue);
+
+        const userCount = getNumClientsOnRoom(io, roomId);
+
+        io.to(roomId).emit('chat:usercount', userCount-1);
+        io.to('chat-resumen').emit('chat:update');
+      }
+    })
+
+    // Actualizar información de index
+    socket.on('chat:resumen', (data) => {
+      console.log(data.roomIds)
+      setTimeout(function () {
+        let numClients = [];
+        for(const item of data.roomIds){
+          const userCount = getNumClientsOnRoom(io, item);
+          numClients.push(userCount);
+        }
+        console.log('Avisando a index '.yellow + socket.id.brightBlue + ' numero de clientes conectados: '.yellow + numClients);
+        io.to('chat-resumen').emit('chat:resumen', numClients);
+      }, 2000)
+      
+    })
+
+});
+

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOCKET.io Rooms</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
+    <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./static/css/index.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container text-center pt-5">
+        <div class="row">
+          <div class="col">
+            <div class="nes-container is-dark is-rounded with-title">
+              <div class="title">Sala Bulbasaur</div>
+                <div class="room">
+                  <div>
+                    <i class="nes-bulbasaur"></i>
+                  </div>
+                  <div>
+                    <a href="/sala?roomId=bulbasaur" class="btn btn-primary nes-pointer">Enter</a>
+                  </div>
+                  <div class="nes-badge mt-3">
+                    <span class="is-primary"><span id="bulbasaurCounter">0</span> personas</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="nes-container is-dark is-rounded with-title">
+              <div class="title">Sala Charmander</div>
+              <div class="room">
+                <div>
+                  <i class="nes-charmander"></i>
+                </div>
+                <div>
+                  <a href="/sala?roomId=charmander" class="btn btn-primary nes-pointer">Enter</a>
+                </div>
+                <div class="nes-badge mt-3">
+                  <span class="is-primary"><span id="charmanderCounter">0</span> personas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="nes-container is-dark is-rounded with-title">
+              <div class="title">Sala Squirtle</div>
+              <div class="room">
+                <div>
+                  <i class="nes-squirtle"></i>
+                </div>
+                <div>
+                  <a href="/sala?roomId=squirtle" class="btn btn-primary nes-pointer" >Enter</a>
+                </div>
+                <div class="nes-badge mt-3">
+                  <span class="is-primary"><span id="squirtleCounter">0</span> personas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+          <p class="col-md-4 mb-0">© 2022 PlushyZeus, Inc</p>
+      
+          <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <i class="nes-icon trophy is-large"></i>
+          </a>
+      
+          <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item"><a href="https://github.com/plushyzeus35" class="nav-link px-2 text-muted"><i class="nes-icon github is-large"></i></a></li>
+            <li class="nav-item"><a href="https://www.instagram.com/plushyzeus35/" class="nav-link px-2 text-muted"><i class="nes-icon instagram is-large"></i></a></li>
+            <li class="nav-item"><a href="https://www.linkedin.com/in/borja-lorenzo-adajas-974833235/" class="nav-link px-2 text-muted"><i class="nes-icon linkedin is-large"></i></a></li>
+          </ul>
+        </footer>
+      </div>
+
+      <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+      <!-- LOCAL JAVASCRIPT -->
+      <script src="./static/js/index.js"></script>
+</body>
+</html>
